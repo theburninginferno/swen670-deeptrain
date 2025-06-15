@@ -11,9 +11,9 @@ SWEN 670: Software Engineering Capstone
 | 3  | Programmer          | Myles Davis        | theburninginferno       |
 | 4  | Programmer          | Bethelehem Gessese | Abysinia2511            |
 | 6  | Testing & Analyst   | Nicole Pope        | nicolefpope             |
-| 7  | Support             | Justin Adkins      | TBD                     |
+| 7  | Support             | Justin Adkins      | Justinadkins25          |
 | 8  | UI/UX Designer      | Brandon Sutan      | UnmedicatedAndDoingFIne |
-| 9  | Supplemental Developer | Alireza Minargar | TBD                    |
+| 9  | Supplemental Developer | Alireza Minargar |aliminagar              |
 
 Last Edited: 06/15/2025
 
