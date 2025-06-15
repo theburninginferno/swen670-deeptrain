@@ -19,29 +19,58 @@ Last Edited: 06/15/2025
 
 Edited By: Myles Davis
 
-# NextJS Deployment
+# DeepTrain Project Deployment
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
 
-First, run the development server:
+If you are going to run the DeepTrain application locally, you will need to do the following:
+
+Prerequisits: 
+- Access to [Vercel](https://vercel.com/) Project (Deployment Application) for environmental variables
+- Install [Node.js](https://nodejs.org/en), the package manager (Most Recent Version). 
+
+1. Clone Project Repo
+
+2. Install Libraries and Dependencies
+
+```bash
+npm install
+or 
+npm i
+and 
+npm install -g vercel
+```
+3. Login to Vercel
+
+```bash
+vercel login
+```
+
+4. Link Local Project to Vercel Project
+
+```bash
+vercel link
+```
+
+5. Pull Environmental Variables
+
+```bash
+vercel env pull .env.local
+```
+
+6. run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Supabase Database
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Currently, DeepTrain is using [Supabase](https://supabase.com) as it's Postgres database and authentication development platform. You will need access to the database project in order to view contents.
 
 ## Learn More
 
