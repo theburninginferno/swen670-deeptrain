@@ -55,6 +55,7 @@ export default function DashboardDrawer({ drawerWidth, miniDrawerWidth, open, se
     return (
         <Box
             sx={{
+                //position: 'fixed',
                 display: 'flex',
                 backgroundColor: 'white',
                 border: '0px solid transparent',
@@ -84,9 +85,10 @@ export default function DashboardDrawer({ drawerWidth, miniDrawerWidth, open, se
                         borderRadius: '25px',
                         border: '0px solid gray',
                         m: 2,
-                        height: '98vh',
+                        height: '97vh',
                         boxShadow: 0,
                     },
+
                 }}
             >
                 <Box
@@ -227,7 +229,7 @@ export default function DashboardDrawer({ drawerWidth, miniDrawerWidth, open, se
                                         //p: .5,
                                     }}
                                 >
-                                    <Tooltip title="Open Panel" placement="right">
+                                    <Tooltip title="Open Panel" placement="bottom">
                                         <IconButton
                                             onClick={() => setOpen(true)}
                                             sx={{
