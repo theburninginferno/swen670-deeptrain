@@ -33,10 +33,11 @@ import {
     Close,
 } from '@mui/icons-material';
 
+// Custom Components
+import OverviewPage from '../OverviewPage/OverviewPage';
+
 export default function DashboardPage({
-    drawerWidth, miniDrawerWidth, open, setOpen,
-    drawerWidthApp, drawerHeightApp, miniDrawerWidthApp, user,
-    mainHeight,
+    open, setOpen, user, selectedPage, 
 }) {
 
     const openWidth = {
@@ -76,7 +77,7 @@ export default function DashboardPage({
         sm: "97%",
         md: "97%",
         lg: "97%",
-        xl: "90%",
+        xl: "89.5%",
     };
 
     return (
@@ -90,8 +91,8 @@ export default function DashboardPage({
                     xs: "4%",
                     sm: "4%",
                     md: "4%",
-                    lg: "4%",
-                    xl: "4%",
+                    lg: "6%",
+                    xl: "4.5vw",
                 },
                 height: MainHeight,
                 width: open ? openWidth : closeWidth,
@@ -106,7 +107,7 @@ export default function DashboardPage({
                 p: 2,
             }}
         >
-            test
+            {selectedPage === 'overview' && <OverviewPage user={user} />}
         </Box>
 
 

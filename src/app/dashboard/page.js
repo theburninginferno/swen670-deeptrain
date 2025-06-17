@@ -13,7 +13,7 @@ export default async function DashboardMainPage() {
     // Get user from Supabase Auth    
     const supabase = await createClient();
     const { data: { user }, error, } = await supabase.auth.getUser();
-    //console.log("User:", user);
+    console.log("User:", user);
 
     return (
         <Box

@@ -42,15 +42,9 @@ const items = [
 
 const logo = 'https://3vsrvtbwvqgcv6z1.public.blob.vercel-storage.com/DeepTrain_Logo_small.png';
 
-export default function DashboardDrawer({ drawerWidth, miniDrawerWidth, open, setOpen }) {
-
-    const avatarSize = {
-        xs: "1vw",
-        sm: "1vw",
-        md: "1vw",
-        lg: "1vw",
-        xl: "1vw",
-    }
+export default function DashboardDrawer({ 
+    drawerWidth, miniDrawerWidth, open, setOpen, setSelectedPage 
+}) {
 
     return (
         <Box
@@ -275,6 +269,9 @@ export default function DashboardDrawer({ drawerWidth, miniDrawerWidth, open, se
                                             mx: open ? 1 : 'auto',
                                             width: 40,
                                             height: 40,
+                                        }}
+                                        onClick={() => {
+                                            setSelectedPage(text.toLowerCase());                                            
                                         }}
                                     >
                                         <ListItemIcon

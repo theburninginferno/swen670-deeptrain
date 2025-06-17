@@ -8,6 +8,8 @@ import DashboardPage from './DashboardPage/DashboardPage';
 
 export default function MainDashboard({ user }) {
   const [open, setOpen] = useState(false);
+  const [selectedPage, setSelectedPage] = useState('overview');
+  console.log("Selected Page:", selectedPage);
 
   // Drawer dimensions
   const drawerWidth = {
@@ -48,15 +50,6 @@ export default function MainDashboard({ user }) {
     xl: "96%",
   };
 
-  // Main Section dimensions
-  const MainHeight = {
-    xs: "97%",
-    sm: "97%",
-    md: "97%",
-    lg: "97%",
-    xl: "97%",
-  };
-
   return (
     <Box
       sx={{
@@ -74,6 +67,7 @@ export default function MainDashboard({ user }) {
         miniDrawerWidth={miniDrawerWidth}
         open={open}
         setOpen={setOpen}
+        setSelectedPage={setSelectedPage}
       />
 
       <DashboardAppbar
@@ -87,15 +81,10 @@ export default function MainDashboard({ user }) {
       />
       
       <DashboardPage
-        drawerWidth={drawerWidth}
-        miniDrawerWidth={miniDrawerWidth}
-        drawerWidthApp={drawerWidthApp}
-        miniDrawerWidthApp={miniDrawerWidthApp}
-        mainHeight={MainHeight}
-        drawerHeightApp={drawerHeightApp}
         open={open}
         setOpen={setOpen}
         user={user}
+        selectedPage={selectedPage}
       />
     </Box>
   );
