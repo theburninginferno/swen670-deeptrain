@@ -30,7 +30,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 The project is stood up and can be viewed [here](https://swen670-deeptrain.vercel.app/). 
 
-### Deploy Appplication Locally
+### Deploying the Application Locally
 
 If you are going to run the DeepTrain application locally, you will need to do the following:
 
@@ -83,21 +83,21 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 # Technology Stack
 
-| Category              | Technology                                          | Purpose             |
+| Category              | Technology                                     | Purpose             |
 |-----------------------|-----------------------------------------------------|---------------------|
 | **Web/Desktop Frontend Framework**| [Next.js](https://nextjs.org/) (built on React)     | UI rendering, routing, SSR (Server-Side Rendering), and SSG support     |
 | **Mobile Framework** | [Flutter](https://flutter.dev/) / [FlutterFlow](https://flutterflow.io/) | Cross-platform native app development                 |
-| **Main UI Libraries**  | [Material UI](https://mui.com/), [Framer Motion](https://www.framer.com/motion/) | Styling, layout, and animations                          |
+| **Web/Desktop UI Libraries**  | [Material UI](https://mui.com/), [Framer Motion](https://www.framer.com/motion/) | Styling, layout, and animations                          |
 | **Web/Desktop Backend/API**       | [Node.js](https://nodejs.org/) (via Next.js API routes) | Backend logic and RESTful API handling            |
 | **Mobile Backend/API**       | [Spring/Spring Boot](https://spring.io/) (via Java API routes) | Backend logic and RESTful API handling            |
-| **Authentication**    | [Supabase Auth](https://supabase.com/auth)          | User sign-up, login, and session management                            |
-| **Database**          | [Supabase](https://supabase.com/) (PostgreSQL)      | Storing relational data such as users, projects, etc.                  |
-| **Asset Storage**           | [ercel Blobs](https://vercel.com/docs/storage/vercel-blob) | Asset and file storage (images, files, etc.) for quick access |
+| **Web/Desktop Authentication**    | [Supabase Auth](https://supabase.com/auth)          | User sign-up, login, and session management                            |
+| **Web/Desktop Database**          | [Supabase](https://supabase.com/) (PostgreSQL)      | Storing relational data such as users, projects, etc.                  |
+| **Web/Desktop Asset Storage**           | [Vercel Blobs](https://vercel.com/docs/storage/vercel-blob) | Asset and file storage (images, files, etc.) for quick access |
 | **Web/Desktop Deployment**        | [Vercel](https://vercel.com/)                       | Continuous deployment, hosting, environment variable management         |
 | **Version Control**   | [Git](https://git-scm.com/) + [GitHub](https://github.com/) | Source code management and collaboration                    |
-| **AI Integration**    | [DeepSeek](https://deepseek.com/) / OpenAI / AWS Bedrock | Natural language features or assistant-based tools         |
-| **Charts & Data Viz** | [MUI X Charts](https://mui.com/x/react-charts/)     | Displaying analytical data (Bar/Line charts)                       |
-| **Icon Libraries** | [Material UI Icons](https://mui.com/material-ui/material-icons/), [Lucide React](https://lucide.dev/guide/packages/lucide-react), [React Icons](https://react-icons.github.io/react-icons/) | Icons   |
+| **AI Integration**    | [DeepSeek](https://deepseek.com/) | Natural language features or assistant-based tools         |
+| **Web/Desktop Charts & Data Viz** | [MUI X Charts](https://mui.com/x/react-charts/)     | Displaying analytical data (Bar/Line charts)                       |
+| **Web/Desktop Icon Libraries** | [Material UI Icons](https://mui.com/material-ui/material-icons/), [Lucide React](https://lucide.dev/guide/packages/lucide-react), [React Icons](https://react-icons.github.io/react-icons/) | Icons   |
 | **Miscellaneous Libraries** | --- | Other   |
 
 # Learn More
