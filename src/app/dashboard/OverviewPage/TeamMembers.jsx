@@ -36,7 +36,6 @@ import {
 
 //custom components
 import AnimatedButton from "@/app/Buttons/AnimatedButton";
-import { Edit } from 'lucide-react';
 
 // List of User's Projects
 export default function TeamMembers({
