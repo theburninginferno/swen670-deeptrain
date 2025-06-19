@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
     Box,
     CssBaseline,
@@ -61,6 +61,24 @@ export default function NodeCreation({
     //Loading
     const [executeLoading, setExecuteLoading] = useState(false);
 
+    useEffect(() => {
+        setNodes((prevNodes) =>
+            prevNodes.map((node) => ({
+                ...node,
+                style: {
+                    ...node.style,
+                    transition: 'all 0.3s ease',
+                    border: node.id === currentNodeId ? '4px solid #00bcd4' : '1px solid #ccc',
+                    boxShadow: node.id === currentNodeId ? '0 0 15px #00bcd4' : 'none',
+                    backgroundColor: node.id === currentNodeId ? '#00bcd4' : 'white',
+                    borderRadius: '5px',
+                },
+            }))
+        );
+    }, [currentNodeId, setNodes]);
+
+
+
     const showSnackbar = (message, severity = "info") => {
         setSnackbar({ open: true, message, severity })
     }
@@ -99,11 +117,60 @@ export default function NodeCreation({
         }
 
         setExecuteLoading(true);
+        setCurrentNodeId(null); // reset previous highlight
+
+        // Clear all previous highlights
+        setNodes((prevNodes) =>
+            prevNodes.map((node) => ({
+                ...node,
+                style: {
+                    ...node.style,
+                    transition: 'all 0.3s ease',
+                    border: '1px solid #ccc',
+                    boxShadow: 'none',
+                    backgroundColor: 'white',
+                },
+            }))
+        );
 
         try {
-            for (const node of nodes) {
-                if (node.type !== 'start') {
-                    await simulateNode(node); // waits for each simulation
+            let currentNode = nodes.find((n) => n.type === 'start');
+
+            while (currentNode) {
+                setCurrentNodeId(currentNode.id);
+
+                if (currentNode.type === 'start' || currentNode.type === 'end') {
+                    await new Promise((res) => setTimeout(res, 1000)); // pause 1s
+                }
+
+                if (currentNode.type === 'quiz') {
+                    const result = await simulateNode(currentNode);
+
+                    const correctAnswer = currentNode.data.questions[0]?.answer;
+                    const match = result.match(/\*\*Answer:\s*(.*?)\*\*/i);
+                    const aiAnswer = match ? match[1].trim() : null;
+                    const correct = aiAnswer?.toLowerCase() === correctAnswer.toLowerCase();
+
+                    const expectedLabel = correct ? 'pass' : 'fail';
+                    const nextEdge = edges.find((e) =>
+                        e.source === currentNode.id &&
+                        e.label?.toLowerCase().includes(expectedLabel)
+                    );
+
+                    if (!nextEdge) {
+                        console.warn(`No '${expectedLabel}' edge found for node ${currentNode.id}`);
+                        break; // stops traversal, prevents undefined errors
+                    }
+
+                    currentNode = nodes.find((n) => n.id === nextEdge.target);
+
+                } else {
+                    const nextEdge = edges.find((e) => e.source === currentNode.id);
+                    currentNode = nodes.find((n) => n.id === nextEdge?.target);
+                }
+
+                if (currentNode?.type !== 'end') {
+                    await new Promise((res) => setTimeout(res, 1000)); // optional visual delay between nodes
                 }
             }
 
@@ -112,9 +179,12 @@ export default function NodeCreation({
             console.error("Execution failed:", error);
             showSnackbar("Simulation failed", "error");
         } finally {
-            //setExecuteLoading(false); // runs only after all nodes are processed
+            console.log("Execution finished");
+            setExecuteLoading(false);
+            //setCurrentNodeId(null);
         }
     };
+
 
 
     const handleClose = () => {
@@ -151,11 +221,12 @@ export default function NodeCreation({
             }
 
             console.log("Simulated result:", text);
-            const match = text.match(/\*\*Answer:\s*(.*?)\*\*/i);
-            const aiAnswer = match ? match[1].trim() : null;
+            return text;
+            //const match = text.match(/\*\*Answer:\s*(.*?)\*\*/i);
+            /*const aiAnswer = match ? match[1].trim() : null;
             const correctAnswer = node.data.questions[0]?.answer;
             const correct = aiAnswer?.toLowerCase() === correctAnswer.toLowerCase();
-            console.log("AI Answer:", aiAnswer, "Correct:", correct);
+            console.log("AI Answer:", aiAnswer, "Correct:", correct);*/
 
             //showSnackbar(`Simulated result: ${text}`, "success");
         } catch (err) {
