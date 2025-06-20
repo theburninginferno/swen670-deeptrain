@@ -12,13 +12,14 @@ import { Download } from "@mui/icons-material"
 export default function LoadDialog({
     open, onClose,
     nodes, edges,
-    setNodes, setEdges, 
-    setCurrentProject = () => {},
-    setCurrentNode = () => {},
+    setNodes, setEdges,
+    setCurrentProject = () => { },
+    setCurrentNode = () => { },
     user,
     showSnackbar,
 }) {
     const [existingProjects, setExistingProjects] = useState([])
+    const [templates, setTemplates] = useState([]);
 
     useEffect(() => {
 
@@ -68,6 +69,26 @@ export default function LoadDialog({
         }
     }
 
+    const getTemplates = async () => {
+        try {
+            const response = await fetch('/api/getProjectTemplates');
+            const resp = await response.json();
+            console.log("Templates fetched:", resp);
+
+            if (!response.ok) {
+                console.error("Error fetching templates:", response.statusText);
+                showSnackbar("Error Fetching Templates", "error");
+            } else {
+                // Handle templates data
+                console.log("Templates data:", resp.templates);
+                setTemplates(resp.templates || []);
+            }
+        } catch (error) {
+            console.error("Error in getTemplates:", error);
+            showSnackbar("Error Fetching Templates", "error");
+        }
+    }
+
     return (
         <Dialog
             open={open}
@@ -80,31 +101,51 @@ export default function LoadDialog({
             }}
         >
             <DialogTitle>
-                <Typography
+                <Box
                     sx={{
-                        textAlign: 'left',
-                        fontFamily: 'Poppins',
-                        fontWeight: 700,
-                        fontSize: {
-                            xs: '1.1vw',
-                            sm: '1.2vw',
-                            md: '1.3vw',
-                            lg: '1.4vw',
-                            xl: '1vw',
-                        },
-                        color: "black",
-                        textDecoration: 'underline',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
                     }}
                 >
-                    Saved Scenarios
-                </Typography>
+                    <Typography
+                        sx={{
+                            textAlign: 'left',
+                            fontFamily: 'Poppins',
+                            fontWeight: 700,
+                            fontSize: {
+                                xs: '1.1vw',
+                                sm: '1.2vw',
+                                md: '1.3vw',
+                                lg: '1.4vw',
+                                xl: '1vw',
+                            },
+                            color: "black",
+                            textDecoration: 'underline',
+                        }}
+                    >
+                        Saved Scenarios
+                    </Typography>
+                    <Button
+                        variant="contained"
+                        onClick={getTemplates}
+                        color="info"
+                    >
+                        Get Templates
+                    </Button>
+                </Box>
             </DialogTitle>
 
             <DialogContent>
 
-                <Box sx={{ mb: 1 }}>
-
-
+                <Box
+                    sx={{
+                        mb: 1,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: 2,
+                    }}
+                >
                     {existingProjects.length > 0 ? (
                         <List dense>
                             {existingProjects.map((proj) => (
@@ -142,6 +183,66 @@ export default function LoadDialog({
                     ) : (
                         <Box sx={{ mt: 2, color: 'text.secondary' }}>
                             No previously saved projects found.
+                        </Box>
+                    )}
+
+                    {templates.length > 0 ? (
+                        <>
+                            <Typography
+                                sx={{
+                                    textAlign: 'left',
+                                    fontFamily: 'Poppins',
+                                    fontWeight: 700,
+                                    fontSize: {
+                                        xs: '1.1vw',
+                                        sm: '1.2vw',
+                                        md: '1.3vw',
+                                        lg: '1.4vw',
+                                        xl: '1vw',
+                                    },
+                                    color: "black",
+                                    textDecoration: 'underline',
+                                }}
+                            >
+                                Templates
+                            </Typography>
+                            <List dense>
+                                {templates.map((template) => (
+                                    <Box
+                                        key={template.id}
+                                        sx={{
+                                            mb: 1,
+                                            border: '2px solid #e0e0e0',
+                                            borderRadius: '4px',
+                                            backgroundColor: '#f9f9f9',
+                                        }}
+                                    >
+                                        <ListItem
+                                            key={template.id}
+                                            secondaryAction={
+                                                <IconButton
+                                                    edge="end"
+                                                    onClick={() => handleImport(template.id)}
+                                                    title="Import Saved Project"
+                                                    color="info"
+                                                >
+                                                    <Download />
+                                                </IconButton>
+                                            }
+                                            button
+                                        >
+                                            <ListItemText
+                                                primary={template.name}
+                                                secondary={`Description: ${template.description}`}
+                                            />
+                                        </ListItem>
+                                    </Box>
+                                ))}
+                            </List>
+                        </>
+                    ) : (
+                        <Box sx={{ mt: 2, color: 'text.secondary' }}>
+                            No previously saved template found.
                         </Box>
                     )}
                 </Box>

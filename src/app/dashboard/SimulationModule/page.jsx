@@ -92,21 +92,17 @@ export default function CoursePageMain({
     }
 
     const startWorkflow = () => {
-        // Logic to start the workflow
-        console.log("Starting workflow with nodes:", nodes, "and edges:", edges);
         // You can add your workflow execution logic here
         if (!nodes || nodes.length === 0 || !edges || edges.length === 0) {
             showSnackbar("No workflow loaded. Please load a workflow first.", "error");
             return;
         }
 
-        console.log("Start Workflow")
         const startNode = nodes.find((n) => n.type === 'start');
         const nextEdge = edges.find((e) => e.source === startNode.id);
         const lessonNode = nodes.find((n) => n.id === nextEdge.target);
         setCurrentNode(lessonNode);
         setCurrentNodeId(lessonNode.id);
-        console.log("Starting from node:", lessonNode);
     }
 
     const handleNextNode = () => {
@@ -114,7 +110,6 @@ export default function CoursePageMain({
         if (!outgoingEdge) return;
         const nextNode = nodes.find(n => n.id === outgoingEdge.target);
         setCurrentNode(nextNode);
-        console.log("Moving to next node:", nextNode);
         setCurrentNodeId(outgoingEdge.target);
     };
 
@@ -128,7 +123,6 @@ export default function CoursePageMain({
         const startNode = nodes.find((n) => n.type === 'start');
         const nextEdge = edges.find((e) => e.source === startNode.id);
         const firstNode = nodes.find((n) => n.id === nextEdge.target);
-        console.log("Restarting workflow from node:", firstNode);
         if (firstNode) {
             setCurrentNode(firstNode);
             setCurrentNodeId(firstNode.id);
