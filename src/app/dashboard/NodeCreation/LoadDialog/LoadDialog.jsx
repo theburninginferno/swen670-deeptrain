@@ -14,6 +14,7 @@ export default function LoadDialog({
     nodes, edges,
     setNodes, setEdges, 
     setCurrentProject = () => {},
+    setCurrentNode = () => {},
     user,
     showSnackbar,
 }) {
@@ -53,6 +54,7 @@ export default function LoadDialog({
                 showSnackbar("Error Loading Project", "error");
             } else {
                 setCurrentProject(resp.project);
+                setCurrentNode(resp.project.nodes[0] || null); // Set first node as current if exists
                 const { nodes: loadedNodes, edges: loadedEdges } = resp.project;
                 console.log("Loaded nodes:", loadedNodes);
                 setNodes(loadedNodes);
