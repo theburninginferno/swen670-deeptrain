@@ -149,6 +149,7 @@ export default function NodeCreation({
                     const correctAnswer = currentNode.data.questions[0]?.answer;
                     const match = result.match(/\*\*Answer:\s*(.*?)\*\*/i);
                     const aiAnswer = match ? match[1].trim() : null;
+                    showSnackbar(`Simulated Student Answer: ${aiAnswer}`, "warning");
                     const correct = aiAnswer?.toLowerCase() === correctAnswer.toLowerCase();
 
                     const expectedLabel = correct ? 'pass' : 'fail';
