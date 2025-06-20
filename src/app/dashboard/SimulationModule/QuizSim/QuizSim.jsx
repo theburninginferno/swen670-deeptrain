@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import {
     Box,
     Grid,
@@ -19,22 +19,29 @@ export default function QuizSim({
     node, onComplete, subHeight,
     currentResponse, setCurrentResponse,
     showSnackbar,
-    answers, setAnswers, 
+    //answers, setAnswers, handleChange, 
+    currentQuestion, setCurrentQuestion,
 }) {
-    const [currentQuestion, setCurrentQuestion] = React.useState(0);
-    const question = node.data.questions[currentQuestion];
+
+    //const [currentQuestion, setCurrentQuestion] = useState(0);
     const [executeLoading, setExecuteLoading] = React.useState(false);
+    const [answers, setAnswers] = useState({});
 
     const handleChange = (event) => {
-        setAnswers({ ...answers, [currentQuestion]: event.target.value });
+        const value = event.target.value;
+        setAnswers((prev) => ({
+            ...prev,
+            [currentQuestion]: value,
+        }));
     };
 
     const handleSubmit = async () => {
         try {
             setExecuteLoading(true);
-            const type = question.type;
-            const currQuestion = question.question;
-            const currAnswer = answers[currentQuestion] || '';
+            const type = node.data.questions[currentQuestion].type;
+            const currQuestion = node.data.questions[currentQuestion].question;
+            const currAnswer = answers[currentQuestion];
+            console.log("Submitting answer:", currAnswer);
             if (type === 'short') {
                 const result = await evaluateAnswer(currQuestion, currAnswer);
                 const { verdict, reason } = parseDeepSeekResponse(result);
@@ -53,7 +60,8 @@ export default function QuizSim({
 
     const handleNext = () => {
         setCurrentResponse(null); // Reset response for next question
-        setAnswers({})
+        //setAnswers({})
+        
         if (currentQuestion + 1 < node.data.questions.length) {
             setCurrentQuestion(currentQuestion + 1);
         } else {
@@ -97,8 +105,8 @@ export default function QuizSim({
     }
 
     const evaluateMultipleChoice = async (currQuestion, currAnswer) => {
-        const correctAnswer = question.answer;
-        console.log("Correct Answer:", question);
+        const correctAnswer = node.data.questions[currentQuestion].answer;
+        console.log("Correct Answer:", node.data.questions[currentQuestion]);
         console.log("User Answer:", currAnswer);
         const isCorrect = currAnswer.trim().toLowerCase() === correctAnswer.trim().toLowerCase();
 
@@ -120,7 +128,6 @@ export default function QuizSim({
 
         return { verdict, reason };
     }
-
 
     return (
         <Box
@@ -195,23 +202,24 @@ export default function QuizSim({
 
                 {/* Render options for the current question */}
                 <Grid size={12}>
-                    {question.type === 'short' && (
+                    {node.data.questions[currentQuestion].type === 'short' && (
                         <TextField
+                            //key={`short-answer-${currentQuestion}`}
                             fullWidth
                             multiline
                             rows={10}
                             label="Your answer"
-                            value={answers[currentQuestion] || ''}
+                            value={answers[currentQuestion] || ''}  // ✅ single source of truth
                             onChange={handleChange}
                         />
                     )}
 
-                    {question.type === 'multiple' && (
+                    {node.data.questions[currentQuestion].type === 'multiple' && (
                         <RadioGroup
                             value={answers[currentQuestion] || ''}
                             onChange={handleChange}
                         >
-                            {question.options.map((option, idx) => (
+                            {node.data.questions[currentQuestion].options.map((option, idx) => (
                                 <FormControlLabel
                                     key={idx}
                                     value={option}
@@ -229,7 +237,7 @@ export default function QuizSim({
                             <Typography
                                 sx={{
                                     textAlign: "left",
-                                    color: currentResponse.verdict === "Correct" ? "green" : "#f4f6f6",
+                                    color: currentResponse.verdict === "Correct" ? "green" : "red",
                                     lineHeight: 1,
                                     fontWeight: 600,
                                     fontFamily: 'Poppins',
@@ -242,7 +250,7 @@ export default function QuizSim({
                                     },
                                 }}
                             >
-                                {currentResponse.verdict}
+                                {currentResponse.verdict ? currentResponse.verdict : "Error: No verdict provided"}
                             </Typography>
                         </Grid>
 
@@ -263,7 +271,7 @@ export default function QuizSim({
                                     },
                                 }}
                             >
-                                {currentResponse.reason}
+                                {currentResponse.reason ? currentResponse.reason : "No reason provided"}
                             </Typography>
                         </Grid>
                     </Box>
@@ -291,13 +299,9 @@ export default function QuizSim({
                                 variant="contained"
                                 onClick={handleSubmit}
                                 color="success"
-                                sx={{
-                                    mt: 0,
-                                    //width: '100%',
-                                }}
                                 loading={executeLoading}
                             >
-                                {currentQuestion + 1 === node.data.questions.length ? 'Submit' : 'Next'}
+                                {currentQuestion + 1 === node.data.questions.length ? 'Submit' : 'Submit'}
                             </Button>
                         )}
 

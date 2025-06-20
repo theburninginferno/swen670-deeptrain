@@ -51,7 +51,7 @@ export default function CoursePageMain({
     const [currentProject, setCurrentProject] = useState({});
     const [currentNode, setCurrentNode] = useState(null);
     const [currentNodeId, setCurrentNodeId] = useState(null);
-    
+
     const subHeight = {
         xs: '40vh',
         sm: '50vh',
@@ -63,6 +63,15 @@ export default function CoursePageMain({
     //Quiz Values
     const [currentResponse, setCurrentResponse] = React.useState(null);
     const [answers, setAnswers] = useState({});
+    const [currentQuestion, setCurrentQuestion] = React.useState(0);
+
+    const handleChange = (event) => {
+        const value = event.target.value;
+        setAnswers((prev) => ({
+            ...prev,
+            [currentQuestion]: value,
+        }));
+    };
 
     const showSnackbar = (message, severity = "info") => {
         setSnackbar({ open: true, message, severity })
@@ -127,6 +136,7 @@ export default function CoursePageMain({
 
         // Optionally reset other states if needed
         setCurrentResponse(null);
+        setCurrentQuestion(0);
     };
 
     function SimulationRenderer({ currentNode }) {
@@ -142,7 +152,7 @@ export default function CoursePageMain({
             case 'lesson':
                 return <LessonPlayer node={currentNode} subHeight={subHeight} />;
             case 'quiz':
-                return <QuizSim answers={answers} setAnswers={setAnswers} node={currentNode} onComplete={handleQuizSubmit} subHeight={subHeight} currentResponse={currentResponse} setCurrentResponse={setCurrentResponse} />;
+                return <QuizSim currentQuestion={currentQuestion} setCurrentQuestion={setCurrentQuestion} handleChange={handleChange} answers={answers} setAnswers={setAnswers} node={currentNode} onComplete={handleQuizSubmit} subHeight={subHeight} currentResponse={currentResponse} setCurrentResponse={setCurrentResponse} />;
             case 'decision':
                 return //<DecisionPrompt node={currentNode} onChoose={handleNextNode} />;
             case 'end':

@@ -14,7 +14,7 @@ import {
     Typography,
 } from "@mui/material";
 import { useState, useEffect } from "react";
-import { Delete } from "@mui/icons-material";
+import { Delete, Edit } from "@mui/icons-material";
 
 export default function QuizInput({ localData, handleChange }) {
     const parsedQuestions = Array.isArray(localData.questions)
@@ -198,15 +198,47 @@ export default function QuizInput({ localData, handleChange }) {
             </Typography>
 
             {questions.map((q, i) => (
-                <Box key={i} sx={{ mb: 1, display: "flex", justifyContent: "space-between" }}>
-                    <Typography variant="body2">{q.question}</Typography>
-                    <Box>
-                        <Button size="small" onClick={() => { setEditing(i); setQuestionData(q); setDialogOpen(true); }}>
-                            Edit
-                        </Button>
-                        <Button size="small" color="error" onClick={() => deleteQuestion(i)}>
-                            Delete
-                        </Button>
+                <Box
+                    key={i}
+                    sx={{
+                        mb: 1,
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                    }}
+                >
+                    <Typography
+                        variant="body2"
+                        sx={{
+                            maxWidth: '70%', // or use 'flex: 1' if needed
+                            whiteSpace: 'nowrap',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                        }}
+                    >
+                        {q.question}
+                    </Typography>
+                    <Box
+                        sx={{
+                            display: "flex",
+                            //gap: 1,
+                            flexDirection: "row",
+                        }}
+                    >
+                        <IconButton
+                            onClick={() => { setEditing(i); setQuestionData(q); setDialogOpen(true); }}
+                            title="Edit Question"
+                            color="info"
+                        >
+                            <Edit />
+                        </IconButton>
+                        <IconButton
+                            onClick={() => deleteQuestion(i)}
+                            title="Delete Question"
+                            color="error"
+                        >
+                            <Delete />
+                        </IconButton>
                     </Box>
                 </Box>
             ))}
