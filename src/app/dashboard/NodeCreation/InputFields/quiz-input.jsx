@@ -16,9 +16,13 @@ import {
 import { useState, useEffect } from "react";
 import { Delete, Edit } from "@mui/icons-material";
 
-export default function QuizInput({ localData, handleChange }) {
-    const parsedQuestions = Array.isArray(localData.questions)
-        ? localData.questions
+export default function QuizInput({ 
+    localData, handleChange,
+    node,  
+}) {
+    console.log("QuizInput node:", node);
+    const parsedQuestions = Array.isArray(node.data.questions)
+        ? node.data.questions
         : [];
 
     const [questions, setQuestions] = useState(parsedQuestions);
@@ -164,7 +168,7 @@ export default function QuizInput({ localData, handleChange }) {
             <TextField
                 fullWidth
                 label="Quiz Title"
-                value={localData.title || ""}
+                value={node.data.title || localData.title || ""}
                 onChange={(e) => handleChange("title", e.target.value)}
                 sx={{ mb: 2 }}
             />
@@ -172,7 +176,7 @@ export default function QuizInput({ localData, handleChange }) {
                 fullWidth
                 type="number"
                 label="Passing Score (%)"
-                value={localData.passingScore || ""}
+                value={node.data.passingScore || localData.passingScore || ""}
                 onChange={(e) => handleChange("passingScore", e.target.value)}
                 sx={{ mb: 2 }}
             />
@@ -180,7 +184,7 @@ export default function QuizInput({ localData, handleChange }) {
                 fullWidth
                 type="number"
                 label="Time Limit (minutes)"
-                value={localData.timeLimit || ""}
+                value={node.data.timeLimit || localData.timeLimit || ""}
                 onChange={(e) => handleChange("timeLimit", e.target.value)}
                 sx={{ mb: 2 }}
             />

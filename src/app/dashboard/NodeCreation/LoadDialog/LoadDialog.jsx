@@ -186,7 +186,7 @@ export default function LoadDialog({
                         </Box>
                     )}
 
-                    {templates.length > 0 ? (
+                    {templates.length > 0 && (
                         <>
                             <Typography
                                 sx={{
@@ -240,10 +240,6 @@ export default function LoadDialog({
                                 ))}
                             </List>
                         </>
-                    ) : (
-                        <Box sx={{ mt: 2, color: 'text.secondary' }}>
-                            No previously saved template found.
-                        </Box>
                     )}
                 </Box>
 
